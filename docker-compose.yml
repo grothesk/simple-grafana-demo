@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:9.6
+    env_file:
+      - envs/postgres.env
+    volumes:
+      - $PWD/data/data.sql:/docker-entrypoint-initdb.d/data.sql
+
+  grafana:
+    image: grafana/grafana:7.5.4
+    env_file:
+      - envs/grafana.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - $PWD/plugins:/var/lib/grafana/plugins
+      - $PWD/settings/dashboard-providers.yml:/etc/grafana/provisioning/dashboards/dashboard-providers.yml
+      - $PWD/settings/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - $PWD/settings/dashboard.json:/var/lib/grafana/dashboards/dashboard.json
+      - $PWD/data/sinus.csv:/data/sinus.csv
+    depends_on:
+      - postgres
+

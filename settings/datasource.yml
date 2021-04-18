@@ -1,0 +1,11 @@
+apiVersion: 1
+datasources:
+  - name: Postgres
+    type: postgres
+    url: postgres:5432
+    database: postgres
+    user: postgres
+    secureJsonData:
+      password: "password1234"
+    jsonData:
+      sslmode: "disable"
